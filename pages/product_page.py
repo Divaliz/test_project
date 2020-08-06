@@ -16,3 +16,7 @@ class ProductPage(BasePage):
         product_price = self.browser.find_element(*ProductPageLocators.PRODUCT_PRICE)
         total_in_basket = self.browser.find_element(*ProductPageLocators.TOTAL_IN_BASKET_MSG)
         assert total_in_basket.text == product_price.text, "price is not matching"
+
+    def should_not_be_success_message(self):
+        BasePage.is_element_present(self, *ProductPageLocators.ADDED_TO_CART_MSG)
+        BasePage.is_element_present(self, *ProductPageLocators.TOTAL_IN_BASKET_MSG)

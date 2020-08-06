@@ -17,6 +17,21 @@ class ProductPage(BasePage):
         total_in_basket = self.browser.find_element(*ProductPageLocators.TOTAL_IN_BASKET_MSG)
         assert total_in_basket.text == product_price.text, "price is not matching"
 
-    def should_not_be_success_message(self):
-        BasePage.is_element_present(self, *ProductPageLocators.ADDED_TO_CART_MSG)
-        BasePage.is_element_present(self, *ProductPageLocators.TOTAL_IN_BASKET_MSG)
+    def guest_cant_see_success_message(self):
+        assert BasePage.is_not_element_present(self, *ProductPageLocators.ADDED_TO_CART_MSG)
+
+    def message_disappeared_after_adding_product_to_basket(self):
+        assert BasePage.is_disappeared(self, *ProductPageLocators.ADDED_TO_CART_MSG)
+
+    def test_guest_should_see_login_link_on_product_page(browser):
+        link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
+        page = ProductPage(browser, link)
+        page.open()
+        page.should_be_login_link()
+
+    def test_guest_can_go_to_login_page_from_product_page(browser):
+        link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
+        page = ProductPage(browser, link)
+        page.open()
+        page.go_to_login_page()
+
